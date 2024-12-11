@@ -1,4 +1,4 @@
-# Awesome Project Build with TypeORM
+# Awesome Boilerplate Express and TypeORM Project
 
 Steps to run this project:
 
