@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm'
 import { dbConfig } from '../config/config'
+import { ExampleDatabaseEntity } from './entities/ExampleDatabaseEntity'
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
@@ -10,5 +11,5 @@ export const AppDataSource = new DataSource({
     database: dbConfig.database,
     synchronize: true,
     logging: false,
-    entities: []
+    entities: [ExampleDatabaseEntity]
 })

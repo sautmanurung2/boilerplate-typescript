@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
+    "moduleResolution": "nodenext",
+    "target": "ESNext",
+    "module": "NodeNext",
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "*": ["node_modules/*"]
     }
