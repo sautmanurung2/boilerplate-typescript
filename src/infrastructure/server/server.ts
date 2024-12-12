@@ -13,14 +13,27 @@ app.get("/", (req, res) => {
 
 app.use("/examples", exampleRoutes);
 
-AppDataSource.initialize()
-  .then(() => {
+const startServer = async () => {
+  try {
+    await AppDataSource.initialize();
     console.log("Database connected!");
-
-    app.listen(serverConfig.port, serverConfig.host, () => {
+    const server = app.listen(serverConfig.port, serverConfig.host, () => {
       console.log(`Server is running on ${serverConfig.host}:${serverConfig.port}`);
     });
-  })
-  .catch((error) => {
+    return server;
+  } catch (error) {
     console.error("Database connection failed: ", error);
+    throw error;
+  }
+};
+
+const stopServer = async (server: any) => {
+  await new Promise<void>((resolve) => {
+    server.close(() => {
+      console.log("Server stopped.");
+      resolve();
+    });
   });
+};
+
+export { app, startServer, stopServer };

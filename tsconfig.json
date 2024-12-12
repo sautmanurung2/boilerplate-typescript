@@ -15,6 +15,6 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["src/**/*", "jest.config.ts"],
+  "include": ["src/**/*", "jest.config.js"],
   "exclude": ["node_modules", "dist"]
 }

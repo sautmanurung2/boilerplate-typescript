@@ -5,8 +5,8 @@ export class ExampleEntity {
   private _id: string;
   private _name: string;
   private _description: string;
-  private _createdAt?: Date;
-  private _updatedAt?: Date;
+  private _createdAt: Date;
+  private _updatedAt: Date;
 
   constructor(props: ExamplePropsInterface) {
     this._id = props.id;
@@ -28,11 +28,11 @@ export class ExampleEntity {
     return this._description;
   }
 
-  get createdAt(): Date | undefined {
+  get createdAt(): Date {
     return this._createdAt;
   }
 
-  get updatedAt(): Date | undefined {
+  get updatedAt(): Date {
     return this._updatedAt;
   }
 
