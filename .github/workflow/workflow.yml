@@ -1,0 +1,33 @@
+name: Run Tests with Jest
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [16, 18]  # Test on Node.js 16 and 18 (adjust versions as needed)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Run Jest tests with coverage
+        run: |
+          npm run test
