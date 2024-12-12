@@ -1,20 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import 'reflect-metadata';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import "reflect-metadata";
 
-@Entity('example')
+@Entity("example")
 export class ExampleDatabaseEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string = '';
+  @PrimaryGeneratedColumn("uuid")
+  id = "";
 
-    @Column({ type: 'varchar', length: 255 })
-    name: string = '';
+  @Column({ type: "varchar", length: 255 })
+  name = "";
 
-    @Column({ type: 'varchar', length: 255 })
-    description: string = '';
+  @Column({ type: "varchar", length: 255 })
+  description = "";
 
-    @CreateDateColumn()
-    createdAt: Date = new Date();
+  @CreateDateColumn()
+  createdAt: Date = new Date();
 
-    @UpdateDateColumn()
-    updatedAt: Date = new Date();
+  @UpdateDateColumn()
+  updatedAt: Date = new Date();
 }

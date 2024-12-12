@@ -1,1 +1,1 @@
-export { default as ExampleValidations } from './ExampleValidations'
+export { default as ExampleValidations } from "./ExampleValidations";

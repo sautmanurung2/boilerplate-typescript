@@ -7,6 +7,20 @@
 This project is a boilerplate for a RESTful API built with Express Typescript, TypeORM, PostgreSQL, Jest, Supertest, and Husky.
 Design patterns using hexagonal architecture
 
+
+### Technologies
+
+- Express Typescript
+- TypeORM
+- PostgreSQL
+- Jest
+- Supertest
+- Husky
+- Biome.js
+- Docker
+- Elasticsearch
+- Winston
+
 ### Prerequisites
 
 - Node.js version LTS
