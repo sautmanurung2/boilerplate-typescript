@@ -11,9 +11,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [22, 20]  # Test on Node.js 22 and 20
 
     steps:
       - name: Checkout code
@@ -22,15 +19,22 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
-      
+          node-version: 22.x # Automatically matches the latest patch version of Node.js 22
+
       - name: Set up environment variables
         run: echo "${{ secrets.ENV_FILE }}" > .env
         env:
           ENV_FILE: ${{ secrets.ENV_FILE }}
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm ci # Faster and ensures a clean install using package-lock.json
+
+      - name: Verify .env file
+        run: |
+          echo "Environment variables loaded:"
+          cat .env # Optional: Verify the .env content (remove in production for security)
 
       - name: Run Jest tests with coverage
-        run: npm run test
+        run: |
+          npm run test

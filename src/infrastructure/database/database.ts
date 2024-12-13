@@ -12,4 +12,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: [ExampleDatabaseEntity],
+  ssl: {
+    rejectUnauthorized: false, // Use `true` if you have a trusted certificate
+  },
 });
