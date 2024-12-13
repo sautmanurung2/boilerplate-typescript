@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [22, 20]  # Test on Node.js 16 and 18 (adjust versions as needed)
+        node: [22, 20]  # Test on Node.js 22 and 20
 
     steps:
       - name: Checkout code
@@ -24,10 +24,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       
+      - name: Set up environment variables
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
 
       - name: Run Jest tests with coverage
-        run: |
-          npm run test
+        run: npm run test
