@@ -1,8 +1,6 @@
-import { randomUUID } from "node:crypto";
 import type { Mocked } from "jest-mock";
 import { ExampleService } from "../../application/service/ExampleService";
 import { ExampleEntity } from "../../domains/entity/ExampleEntity";
-import type { ExamplePropsInterface } from "../../domains/interfaces/ExampleInterfaces";
 import type { ExampleRepository } from "../../infrastructure/repository/ExampleRepository";
 
 jest.mock("../../domains/entity/ExampleEntity");
@@ -98,27 +96,24 @@ describe("ExampleService", () => {
   describe("updateExample", () => {
     it("should update and return the updated ExampleEntity", async () => {
       const id = "123";
-      const updates: ExamplePropsInterface = {
-        id,
+      const updates = {
         name: "Updated Example",
-        description: "asdasdasd",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        description: "Updated description",
       };
 
-      // Create an existing entity with a random UUID
+      // Create an existing entity
       const existingEntity = new ExampleEntity({
-        id: randomUUID(), // Correct usage of randomUUID
-        name: "updated name",
-        description: "updated description",
+        id: id, // Use the same ID for consistency
+        name: "Original Name",
+        description: "Original Description",
         createdAt: new Date(),
         updatedAt: new Date(),
       });
 
       // Create the updated entity
       const updatedEntity = new ExampleEntity({
-        ...existingEntity.toProps(), // Use existing entity's properties
-        ...updates, // Apply the updates
+        ...existingEntity.toProps(), // Spread existing properties
+        ...updates, // Apply updates
       });
 
       // Mock repository methods
@@ -127,17 +122,84 @@ describe("ExampleService", () => {
 
       const result = await exampleService.updateExample(id, updates);
 
-      // Ensure that the repository's findById and update methods were called with the correct parameters
+      // Assert repository methods are called with correct parameters
       expect(repositoryMock.findById).toHaveBeenCalledWith(id);
-      //   expect(repositoryMock.update).toHaveBeenCalledWith(expect.objectContaining({
-      //     id: updatedEntity.id,
-      //     name: updatedEntity.name,
-      //     description: updatedEntity.description,
-      //     createdAt: updatedEntity.createdAt,
-      //     updatedAt: updatedEntity.updatedAt,
-      //   }));
 
-      expect(result).toBe(updatedEntity);
+      // Assert the result is the updated entity
+      expect(result).toEqual(updatedEntity);
+    });
+
+    it("should return null if the entity does not exist", async () => {
+      const id = "nonexistent-id";
+      const updates = {
+        name: "Updated Example",
+        description: "Updated description",
+      };
+
+      // Mock repository methods
+      repositoryMock.findById.mockResolvedValue(null); // Simulate non-existent entity
+
+      const result = await exampleService.updateExample(id, updates);
+
+      // Assert repository's findById was called
+      expect(repositoryMock.findById).toHaveBeenCalledWith(id);
+
+      // Assert no update was called and result is null
+      expect(repositoryMock.update).not.toHaveBeenCalled();
+      expect(result).toBeNull();
+    });
+
+    it("should handle partial updates correctly", async () => {
+      const id = "123";
+      const updates = {
+        name: "Partially Updated Name", // Only updating the name
+      };
+
+      // Create an existing entity
+      const existingEntity = new ExampleEntity({
+        id: id,
+        name: "Original Name",
+        description: "Original Description",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      // Create the updated entity
+      const updatedEntity = new ExampleEntity({
+        ...existingEntity.toProps(),
+        ...updates, // Apply updates
+      });
+
+      // Mock repository methods
+      repositoryMock.findById.mockResolvedValue(existingEntity);
+      repositoryMock.update.mockResolvedValue(updatedEntity);
+
+      const result = await exampleService.updateExample(id, updates);
+
+      // Assert repository methods are called with correct parameters
+      expect(repositoryMock.findById).toHaveBeenCalledWith(id);
+
+      // Assert the result is the updated entity
+      expect(result).toEqual(updatedEntity);
+    });
+  });
+
+  describe("deleteExample", () => {
+    it("should delete the ExampleEntity", async () => {
+      const id = "123";
+      const entity = new ExampleEntity({
+        id,
+        name: "Example",
+        description: "Description",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      repositoryMock.findById.mockResolvedValue(entity);
+      repositoryMock.delete.mockResolvedValue();
+
+      const result = await exampleService.deleteExample(id);
+
+      expect(result).toBe(undefined);
     });
   });
 });

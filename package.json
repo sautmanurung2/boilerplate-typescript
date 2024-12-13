@@ -6,9 +6,9 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsup",
-    "start": "ts-node src/index.ts",
+    "start": "ts-node dist/infrastructure/server/index.js",
     "typeorm": "typeorm-ts-node-commonjs",
-    "dev": "tsx watch --clear-screen=false src/infrastructure/server/server.ts",
+    "start:dev": "tsx watch --clear-screen=false src/infrastructure/server/index.ts",
     "test": "jest --coverage",
     "clean": "rimraf dist coverage",
     "lint": "biome check src/",
